@@ -4,6 +4,8 @@ __pycache__/
 .env
 *.egg-info/
 .ipynb_checkpoints/
+data/raw/
 data/*.db
+data/*.db-*
 data/*.sqlite
 .DS_Store

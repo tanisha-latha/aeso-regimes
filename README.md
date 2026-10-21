@@ -8,7 +8,8 @@ AESO data, then tests how well supply conditions predict those regimes.
 
 ## Status
 
-Early scaffold. Ingestion, features, regime rules, and the backtest are next.
+Historical hourly price, load and unit generation (Jan 2001 to Jul 2025) load
+into SQLite. Fuel mapping, features, regime rules, and the backtest are next.
 
 ## Question
 
@@ -20,6 +21,10 @@ price variance gas alone explains versus supply conditions.
 
 ## Data
 
+- AESO "Hourly Metered Volumes and Pool Price and AIL data 2001 to July
+  2025" (data requests page): hourly pool price, Alberta internal load,
+  hour-ahead price forecast, intertie flows, and metered volumes for every
+  unit over 5 MW. April to July 2025 volumes are not yet final.
 - AESO public API: pool price, generation by fuel, wind and solar output,
   load, and outages. A free API key is available from the AESO developer
   portal.
@@ -42,8 +47,13 @@ and price behaviour rather than an exact marginal-cost calculation.
 
 ## Running it
 
+Download the three historical CSVs into `data/raw/`, then:
+
 ```
 pip install -e .
-export AESO_API_KEY=your-key
-python -m aeso_regimes.ingest
+python -m aeso_regimes.load_history
 ```
+
+This builds `data/aeso.db` with two tables: `market` (one row per hour) and
+`asset_gen` (metered MWh per unit per hour). Raw files and the database are
+not committed.
